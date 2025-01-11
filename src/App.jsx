@@ -1,20 +1,22 @@
 import React from 'react'
-import TopNav from './Components/TopNav/TopNav'
-import SideNav from './Components/SideNav/SideNav'
-import TopFilter from './Components/TopFilter/TopFilter'
-import Cards from './Components/Cards/Cards'
+// import Home from './Components/Home/Home'
+// import ProductDetail from './Components/ProductDetail/ProductDetail'
+import { Route, Routes } from 'react-router-dom'
+import Home from './Component/Home/Home'
+import SearchResult from './Component/Search/SearchResult'
+import VideoDetail from './Component/VideoDetail/VideoDetail'
+// import Header from './Component/Header/Header'
+// import SideNav from './Component/SideNav/SideNav'
 
 const App = () => {
   return (
     <>
-    <TopNav/>
-    <div className="flex">
-    <SideNav/>
-       <div className="ml-auto pt-[5rem] w-[81%]">
-        <TopFilter/>
-        <Cards/>
-       </div>
-    </div>
+    
+    <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/searchResult/:serchQuery" element={<SearchResult />} />
+        <Route path="/video/:id" element={<VideoDetail />} />
+    </Routes>
     </>
   )
 }

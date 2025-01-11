@@ -1,10 +1,13 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import Context from "./context/Context.jsx";
+import { BrowserRouter } from "react-router-dom";
+import { AppContext } from "./context/ContextApi.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <Context>
+  <AppContext>
+    <BrowserRouter>
     <App />
-  </Context>
+    </BrowserRouter>
+  </AppContext>
 );
