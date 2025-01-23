@@ -5,9 +5,10 @@ import { Context } from "../../context/ContextApi";
 import { useNavigate } from "react-router-dom";
 
 const SideNav = () => {
-  const { SetSelectCategories, SelectCategories } = useContext(Context);
+  const { SetSelectCategories, SelectCategories, SetMobileMenu , MobileMenu } = useContext(Context);
 
   const nav = useNavigate();
+
 
   const clickHandler = (name , type)=>{
     switch (type) {
@@ -28,7 +29,7 @@ const SideNav = () => {
 
   return (
     <>
-      <div className="side_nav h-[100vh] pt-5 pb-5 p-[6px] overflow-y-scroll  fixed bg-black w-[15rem] top-[12%]">
+      <div className={`side_nav fixed lg:translate-x-0 ${MobileMenu ?  'translate-x-0' :'-translate-x-full' } transition duration-700 ease-in-out top-[7%] h-[100vh] pt-5 pb-5 p-[6px] lg:overflow-y-scroll  bg-black w-[15rem] lg:top-[12%] lg:left-0`}>
         {categories.map((val , index) => {
           return (
             <>

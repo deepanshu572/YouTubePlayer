@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import {Link} from 'react-router-dom'
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaMicrophone } from "react-icons/fa";
 import { RiVideoAddFill } from "react-icons/ri";
@@ -9,6 +9,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../Shared/Loader";
 import { SlMenu } from "react-icons/sl";
 import { CgClose } from "react-icons/cg";
+import SearchBar from "../SearchBar/SearchBar";
+import { fetchDataFromApi } from "../../Utils/api";
 
 const Header = () => {
   const svg = (
@@ -40,6 +42,7 @@ const Header = () => {
   );
 
   const [searchQuery, SetsearchQuery] = useState("");
+  const [SearchRelatedData ,SetSearchRelatedData ] = useState(null);
   const { Loading, MobileMenu, SetMobileMenu } = useContext(Context);
   const nav = useNavigate();
 
@@ -48,10 +51,22 @@ const Header = () => {
       event?.key == "Enter" ||
       (event == "SerchButton" && searchQuery?.length > 0)
     ) {
-      
       nav(`/searchResult/${searchQuery}`);
     }
   };
+  // console.log(searchQuery);
+  
+
+  const AutoCompleteSearchData = () => {
+    fetchDataFromApi(`auto-complete/?q=${searchQuery}`).then((res) => {
+      // console.log(res);
+      SetSearchRelatedData(res?.results)
+    });
+  };
+
+  useEffect(() => {
+    AutoCompleteSearchData();
+  }, [searchQuery]);
 
   const MobileToggle = () => {
     SetMobileMenu(!MobileMenu);
@@ -74,7 +89,7 @@ const Header = () => {
             </div>
           )}
 
-         <Link to="/">{svg}</Link>
+          <Link to="/">{svg}</Link>
         </div>
 
         <div className="top_nav_middle flex items-center gap-3">
@@ -83,19 +98,21 @@ const Header = () => {
               className="bg-[#121212] border-0 outline-none px-[17px] py-[7px] w-[34vw] "
               type="text"
               placeholder="Search"
-              onChange={(e)=> SetsearchQuery(e.target.value)}
+              onChange={(e) => SetsearchQuery(e.target.value)}
               onKeyUp={SearchQueryHandler}
               value={searchQuery}
             />
             <div className="serch p-[7px] pl-0 pr-[12px]  ">
               <IoSearchOutline className="text-[20px] " />
             </div>
+            <SearchBar key={SearchRelatedData?.results?.value} data={SearchRelatedData} />
           </div>
+
           <div className="mic w-[35px] h-[35px] rounded-full bg-[#222222] flex items-center justify-center">
             <FaMicrophone />
           </div>
         </div>
-        <div className="top_nav_right flex items-center justify-center gap-6">
+        <div className="top_nav_right hidden items-center justify-center gap-6 lg:flex">
           <div className="video">
             <RiVideoAddFill className="text-[23px]" />
           </div>

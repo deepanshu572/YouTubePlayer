@@ -5,12 +5,14 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './Component/Home/Home'
 import SearchResult from './Component/Search/SearchResult'
 import VideoDetail from './Component/VideoDetail/VideoDetail'
-// import Header from './Component/Header/Header'
-// import SideNav from './Component/SideNav/SideNav'
+import Header from './Component/Header/Header'
+import SideNav from './Component/SideNav/SideNav'
 
 const App = () => {
   return (
     <>
+    <Header/>
+    <SideNav/>
     
     <Routes>
         <Route path="/" element={<Home />} />

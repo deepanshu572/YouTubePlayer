@@ -2,30 +2,40 @@ import React, { useContext, useEffect, useState } from 'react'
 import { fetchDataFromApi } from "../../Utils/api";
 import { useParams } from 'react-router-dom';
 import { Context } from '../../context/ContextApi';
+import SearchResultData from './SearchResultData';
 
 const SearchResult = () => {
-  const {SetLoading} = useContext(Context);
+  const { SetLoading } = useContext(Context);
 
-  const {serchQuery} = useParams();
-  console.log(serchQuery);
-  
+  const { serchQuery } = useParams();
+
   const [query, setQuery] = useState();
 
   useEffect(() => {
     SerchDataFetch();
   }, [serchQuery]);
 
-   const SerchDataFetch = ()=>{
+
+  const SerchDataFetch = () => {
     SetLoading(true)
-    fetchDataFromApi(`search/?q=${serchQuery}`).then((res)=>{
-      console.log(res);
-      setQuery(res);
+    fetchDataFromApi(`search/?q=${serchQuery}`).then((res) => {
+      setQuery(res?.contents);
       SetLoading(false);
     })
-   }
+  }
+
+
   return (
     <>
-gggg
+
+<div className=" w-[80%] ml-auto pt-[86px] ">
+
+{query?.length > 0 && query.map((val) => {
+  // console.log(val);
+  return <SearchResultData key={val.id} videoData={val} />
+})}
+  
+  </div>
     </>
   )
 }
